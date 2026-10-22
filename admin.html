@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PFix Admin Panel - Manage bookings, workers, services, and pricing.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>PFix - Admin Panel</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      padding: 20px;
+    }
+
+    .admin-dashboard-wrapper {
+      display: none;
+      min-height: 100vh;
+    }
+
+    /* Admin-specific sidebar styling */
+    .admin-sidebar .sidebar-section {
+      margin-bottom: var(--space-xl);
+    }
+
+    .admin-sidebar .sidebar-section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.4;
+      margin-bottom: var(--space-sm);
+      padding: 0 14px;
+    }
+
+    /* Mobile sidebar toggle */
+    .admin-sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 250;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: white;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      border: none;
+    }
+
+    @media (max-width: 768px) {
+      .admin-sidebar-toggle {
+        display: flex;
+      }
+
+      .admin-sidebar {
+        transform: translateX(-100%);
+        transition: transform var(--transition-normal);
+      }
+
+      .admin-sidebar.show {
+        transform: translateX(0);
+      }
+
+      .admin-main {
+        margin-left: 0 !important;
+        padding: 20px !important;
+        padding-top: 70px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ADMIN LOGIN ===== -->
+  <div class="admin-login-wrapper" id="admin-login-section">
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="assets/logo.png" alt="PFix Logo">
+        <h2>Admin Panel</h2>
+        <p>Manage your PFix business</p>
+      </div>
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label>Username <span class="required">*</span></label>
+          <input type="text" id="admin-user" class="form-control" placeholder="admin" required>
+        </div>
+        <div class="form-group">
+          <label>Password <span class="required">*</span></label>
+          <input type="password" id="admin-pass" class="form-control" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+          🔐 Login to Admin Panel
+        </button>
+      </form>
+      <div style="text-align:center;margin-top:var(--space-xl);">
+        <a href="index.html" style="color:var(--text-muted);font-size:0.9rem;">← Back to PFix Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN DASHBOARD ===== -->
+  <div class="admin-dashboard-wrapper" id="admin-dashboard-section">
+    <!-- Mobile sidebar toggle -->
+    <button class="admin-sidebar-toggle" onclick="document.querySelector('.admin-sidebar').classList.toggle('show')">
+      ☰
+    </button>
+
+    <!-- Sidebar -->
+    <div class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/logo.png" alt="PFix">
+        <span>PFix Admin</span>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Management</div>
+        <ul class="sidebar-nav">
+          <li><a href="#" data-tab="bookings" class="active" onclick="AdminApp.switchTab('bookings')">📋 Bookings</a></li>
+          <li><a href="#" data-tab="workers" onclick="AdminApp.switchTab('workers')">👷 Workers</a></li>
+          <li><a href="#" data-tab="services" onclick="AdminApp.switchTab('services')">🛠 Services & Pricing</a></li>
+          <li><a href="#" data-tab="stats" onclick="AdminApp.switchTab('stats')">📊 Statistics</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <ul class="sidebar-nav">
+          <li><a href="index.html">🏠 Website Home</a></li>
+          <li><a href="worker.html">👤 Worker Dashboard</a></li>
+          <li><a href="#" onclick="AdminApp.logout()">🚪 Logout</a></li>
+        </ul>
+      </div>
+
+      <div style="position:absolute;bottom:20px;left:20px;right:20px;padding:var(--space-md);background:rgba(255,255,255,0.05);border-radius:var(--radius-md);font-size:0.8rem;opacity:0.5;">
+        PFix Admin Panel<br>
+        © 2026 PFix
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main" id="admin-content">
+      <!-- Rendered by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Firebase SDK (Cloud Firestore) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <!-- Admin Scripts -->
+  <script src="data/services.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "pfix",
+  "version": "1.0.0",
+  "description": "PFix - Professional Home Repair & Maintenance Services Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["pfix", "home-service", "bangladesh"],
+  "author": "PFix",
+  "license": "ISC"
+}

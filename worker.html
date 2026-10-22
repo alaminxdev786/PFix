@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PFix Worker Dashboard - Login to manage your assigned jobs and track your work.">
+  <title>PFix - Worker Dashboard</title>
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Worker-specific mobile optimizations */
+    .worker-login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a3a5c 0%, #1e4d8c 50%, #2a6cb8 100%);
+      padding: 20px;
+    }
+
+    .worker-dashboard-wrapper {
+      display: none;
+      min-height: 100vh;
+      background: var(--bg-primary);
+    }
+
+    .worker-header {
+      background: white;
+      padding: 16px 20px;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .worker-header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .worker-body {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .worker-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .worker-tab {
+      padding: 10px 20px;
+      border-radius: var(--radius-xl);
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+      background: white;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+    }
+
+    .worker-tab.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .worker-tab:hover:not(.active) {
+      background: var(--bg-primary);
+    }
+
+    /* Phone-optimized dashboard stats */
+    @media (max-width: 600px) {
+      .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+
+      .stat-card {
+        padding: 16px !important;
+      }
+
+      .stat-card .stat-value {
+        font-size: 1.4rem !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== LOGIN SECTION ===== -->
+  <div class="worker-login-wrapper" id="login-section">
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="assets/logo.png" alt="PFix Logo">
+        <h2>Worker Login</h2>
+        <p>কর্মী লগইন — আপনার কাজ পরিচালনা করুন</p>
+      </div>
+      <form id="worker-login-form">
+        <div class="form-group">
+          <label>Phone Number <span class="required">*</span></label>
+          <input type="tel" id="worker-phone" class="form-control" placeholder="01XXXXXXXXX" required>
+        </div>
+        <div class="form-group">
+          <label>PIN <span class="required">*</span></label>
+          <input type="password" id="worker-pin" class="form-control" placeholder="Enter your PIN" maxlength="6" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+          🔐 Login
+        </button>
+      </form>
+      <div style="text-align:center;margin-top:var(--space-xl);">
+        <a href="index.html" style="color:var(--text-muted);font-size:0.9rem;">← Back to PFix Home</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD SECTION ===== -->
+  <div class="worker-dashboard-wrapper" id="dashboard-section">
+    <!-- Header -->
+    <div class="worker-header">
+      <div class="worker-header-content">
+        <div class="dashboard-user">
+          <div class="dashboard-avatar" id="worker-avatar">R</div>
+          <div>
+            <div style="font-weight:700;font-size:0.95rem;" id="worker-name">Worker Name</div>
+            <div style="font-size:0.8rem;color:var(--text-muted);" id="worker-category">Category</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <a href="index.html" style="font-size:0.85rem;color:var(--text-muted);">🏠</a>
+          <button class="btn btn-outline" style="font-size:0.8rem;padding:8px 14px;" onclick="WorkerApp.logout()">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="worker-body">
+      <!-- Stats -->
+      <div class="dashboard-stats" id="worker-stats" style="grid-template-columns: repeat(2, 1fr);">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Jobs List -->
+      <h3 style="font-weight:700;color:var(--primary-dark);margin-bottom:var(--space-md);">📋 My Jobs</h3>
+      <div id="jobs-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK (Cloud Firestore) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <!-- Worker Scripts -->
+  <script src="data/services.js"></script>
+  <script src="js/worker.js"></script>
+</body>
+</html>
